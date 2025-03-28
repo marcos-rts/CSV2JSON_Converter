@@ -13,7 +13,14 @@ function convertCSV() {
     const reader = new FileReader();
 
     reader.onload = function (e) {
-        const text = e.target.result;
+        let text = e.target.result;
+
+        // Aqui detectamos se há caracteres estranhos e tentamos decodificar
+        try {
+            text = new TextDecoder('ISO-8859-1').decode(new Uint8Array(e.target.result));
+        } catch (error) {
+            console.log('Erro ao decodificar como ISO-8859-1, mantendo como UTF-8.');
+        }
 
         // Detectar automaticamente o delimitador (vírgula ou ponto e vírgula)
         const delimitador = text.includes(';') ? ';' : ',';
@@ -47,7 +54,8 @@ function convertCSV() {
         alert('Erro ao ler o arquivo!');
     };
 
-    reader.readAsText(file, 'UTF-8'); // Leitura do arquivo em UTF-8
+    // Leitura do arquivo como binário para garantir a manipulação da codificação correta
+    reader.readAsArrayBuffer(file);
 }
 
 function downloadJSON() {
