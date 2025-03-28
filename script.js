@@ -14,12 +14,16 @@ function convertCSV() {
 
     reader.onload = function (e) {
         const text = e.target.result;
+
+        // Detectar automaticamente o delimitador (vírgula ou ponto e vírgula)
+        const delimitador = text.includes(';') ? ';' : ',';
+
         const lines = text.split('\n');
-        const headers = lines[0].split(',');
+        const headers = lines[0].split(delimitador);
 
         let jsonArray = [];
         lines.slice(1).forEach((line, index) => {
-            const values = line.split(',');
+            const values = line.split(delimitador);
             let jsonObject = {};
             headers.forEach((header, i) => {
                 jsonObject[header.trim()] = values[i] ? values[i].trim() : '';
@@ -36,8 +40,6 @@ function convertCSV() {
 
         // Exibe o botão de download
         downloadBtn.style.display = 'block';
-
-        // Salva o JSON para download
         downloadBtn.dataset.json = jsonString;
     };
 
@@ -45,14 +47,14 @@ function convertCSV() {
         alert('Erro ao ler o arquivo!');
     };
 
-    reader.readAsText(file);
+    reader.readAsText(file, 'UTF-8'); // Leitura do arquivo em UTF-8
 }
 
 function downloadJSON() {
     const jsonString = document.getElementById('downloadBtn').dataset.json;
     const blob = new Blob([jsonString], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-    
+
     const a = document.createElement('a');
     a.href = url;
     a.download = 'arquivo.json';
