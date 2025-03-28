@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV2JSON Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            text-align: center;
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            margin: 10px 0;
+        }
+        .progress-bar div {
+            height: 25px;
+            width: 0;
+            background-color: #4caf50;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSV2JSON Converter</h1>
+        <input type="file" id="csvFile" accept=".csv">
+        <button onclick="convertCSV()">Converter CSV para JSON</button>
+        <div class="progress-bar"><div id="progress"></div></div>
+        <textarea id="jsonOutput" readonly></textarea>
+        <br>
+        <button id="downloadBtn" onclick="downloadJSON()" style="display:none;">Baixar JSON</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
